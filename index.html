@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Invitation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at top, #0a95f1, #770ab6 55%, #382344);
+
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        /* Main invitation card */
+        .invitation-card {
+    position: relative;
+    width: 380px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    isolation: isolate;
+}
+
+.invitation-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            rgba(240, 232, 220, 0.10),
+            rgba(240, 232, 220, 0.10)
+        ),
+        url("images/image1.jpg") center / cover no-repeat;
+    opacity: 0.35;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 45px;
+}
+
+        /* Small heading */
+        .small-title {
+            text-align: center;
+            font-size: 16px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+
+            color: #8508eb;
+
+            margin-bottom: 15px;
+        }
+
+        /* Main title */
+        h1 {
+            text-align: center;
+            font-size: clamp(40px, 8vw, 70px);
+            margin-bottom: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #d89cff,
+                #ffffff
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #dddddd;
+            margin-bottom: 30px;
+        }
+
+        /* Event information */
+        .event-info {
+            text-align: center;
+            margin: 25px 0;
+            line-height: 1.8;
+        }
+
+        .event-info p {
+            font-size: 17px;
+            color: #eeeeee;
+        }
+
+        .event-info strong {
+            color: #d89cff;
+        }
+
+        /* Countdown */
+        .countdown-title {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 15px;
+
+            font-size: 18px;
+            color: lightgreen;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+
+            margin: 20px 0 35px;
+            
+        }
+
+        .time-box {
+            padding: 18px 8px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+        }
+
+        .time-box span {
+            display: block;
+
+            font-size: clamp(25px, 5vw, 38px);
+            font-weight: bold;
+
+            color: blue;
+        }
+
+        .time-box small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #c4a7a7;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+
+            padding: 14px 30px;
+
+            border-radius: 50px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+        .rsvp-btn {
+            background: linear-gradient(135deg, #b84dff, #7222c9);
+            color: wheat;
+        }
+
+        .donate-btn {
+            background: linear-gradient(135deg, #ff5c9a, #d92968);
+            color: wheat;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.03);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+
+            font-size: 13px;
+            color: #aaaaaa;
+        }
+
+        /* Countdown message */
+        #event-message {
+            display: none;
+
+            font-size: 25px;
+            font-weight: bold;
+
+            color: #d89cff;
+
+            margin: 25px 0;
+        }
+
+        /* Mobile */
+        @media (max-width: 500px) {
+
+            .invitation-card {
+                padding: 35px 18px;
+            }
+
+            .countdown {
+                gap: 7px;
+            }
+
+            .time-box {
+                padding: 14px 5px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+            /* Popup */
+
+.popup-overlay {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    backdrop-filter: blur(8px);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+}
+
+.popup-box {
+    position: relative;
+
+    width: 90%;
+    max-width: 420px;
+
+    padding: 35px 25px;
+
+    text-align: center;
+
+    background: #1b0925;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 20px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    animation: popupAppear 0.3s ease;
+}
+
+.popup-box h2 {
+    color: #d89cff;
+
+    margin-bottom: 20px;
+}
+
+.popup-number {
+    display: block;
+
+    margin: 12px 0;
+
+    padding: 14px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+.mpesa-label {
+    color: #c8c8c8;
+
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+    background: none;
+
+    color: white;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #d89cff;
+}
+
+@keyframes popupAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    
+}
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invitation-card">
+
+        <div class="small-title">
+            You Are Invited
+        </div>
+
+        <h1><i>Engagement <br />Farewell Party</i></h1>
+
+        <p class="subtitle">
+            
+        </p>
+
+        <div class="event-info">
+
+            <p>
+                📅 <strong>Date:</strong>
+                18<sup>th</sup> December 2026
+            </p>
+
+            <p>
+                🕙 <strong>Time:</strong>
+                10:00 AM
+            </p>
+
+            <p>
+                📍 <strong>Venue:</strong>
+                <i>The Palm Prairies Gardens-<br />Annex<br /></i><b>ELDORET</b>
+           
+                <br /><strong>Distance:</strong>
+                road: 5hrs 45 min<br />
+                ✈️air:  50 min
+
+            </P>
+        </div>
+
+        <p class="countdown-title">
+           <i>Event starts in:</i>
+        </p>
+
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">
+
+            <div class="time-box">
+                <span id="days">00</span>
+                <small>Days</small>
+            </div>
+
+            <div class="time-box">
+                <span id="hours">00</span>
+                <small>Hours</small>
+            </div>
+
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <small>Minutes</small>
+            </div>
+
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <small>Seconds</small>
+            </div>
+
+        </div>
+
+        <!-- Event started message -->
+        <div id="event-message">
+            🎉 The Event Has Started! 🎉
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <button
+                class="btn rsvp-btn"
+                onclick="rsvp()">
+                RSVP
+                
+
+            </button>
+            
+
+            <button
+                class="btn donate-btn"
+                onclick="donate()">
+                💝 Donate
+            </button>
+
+        </div>
+
+        <p class="footer">
+            <b>OTOGOTIN!</b><br /><i>© MuchaiDesigns All rights reserved.</i>
+
+            <a href="mailto: hommebien77@gmail.com">Email Muchai</a>
+
+        </p>
+
+    </div>
+
+
+    <script>
+
+        /*
+        ==========================================
+        EVENT COUNTDOWN
+        ==========================================
+        December 18, 2026 at 10:00 AM
+        East Africa Time (UTC +3)
+        */
+
+        const eventDate =
+            new Date("2026-12-18T10:00:00+03:00").getTime();
+
+
+        function updateCountdown() {
+
+            const now = new Date().getTime();
+
+            const difference = eventDate - now;
+
+
+            // Event has started
+            if (difference <= 0) {
+
+                document.getElementById("countdown").style.display = "none";
+
+                document.getElementById("event-message").style.display = "block";
+
+                return;
+            }
+
+
+            // Calculate time
+            const days =
+                Math.floor(
+                    difference / (1000 * 60 * 60 * 24)
+                );
+
+            const hours =
+                Math.floor(
+                    (difference % (1000 * 60 * 60 * 24))
+                    / (1000 * 60 * 60)
+                );
+
+            const minutes =
+                Math.floor(
+                    (difference % (1000 * 60 * 60))
+                    / (1000 * 60)
+                );
+
+            const seconds =
+                Math.floor(
+                    (difference % (1000 * 60))
+                    / 1000
+                );
+
+
+            // Display countdown
+            document.getElementById("days").textContent =
+                String(days).padStart(2, "0");
+
+            document.getElementById("hours").textContent =
+                String(hours).padStart(2, "0");
+
+            document.getElementById("minutes").textContent =
+                String(minutes).padStart(2, "0");
+
+            document.getElementById("seconds").textContent =
+                String(seconds).padStart(2, "0");
+        }
+
+
+        // Run immediately
+        updateCountdown();
+
+
+        // Update every second
+        setInterval(updateCountdown, 1000);
+
+
+        /*
+        ==========================================
+        RSVP BUTTON
+        ==========================================
+        */
+
+      
+function rsvp() {
+    document.getElementById("popup-title").textContent = "RSVP";
+
+    document.getElementById("popup-content").innerHTML = `
+        <button class="rsvp-back" onclick="backToInvitation()">
+            ← Back
+        </button>
+
+        <p style="color:#ccc; margin-bottom:15px;">
+            <b>Please contact us through either of the numbers below:</b>
+        </p>
+
+        <span class="popup-number">0722961460</span>
+        <br />
+        <span class="popup-number">0727231375</span>
+    `;
+
+    document.getElementById("popup").style.display = "flex";
+}
+
+
+        
+
+async function donate() {
+    const amount = prompt("Enter donation amount:");
+
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+        alert("Please enter a valid donation amount.");
+        return;
+    }
+
+    const phone = prompt("Enter your M-PESA phone number:");
+
+    if (!phone) {
+        alert("Please enter your phone number.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/donate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: Number(amount),
+                phone: phone
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("M-PESA payment request sent! Check your phone.");
+        } else {
+            alert("Payment failed: " + result.message);
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Could not connect to the payment server.");
+    }
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+    </script>
+<!-- Popop -->
+ <div id="popup" class="popup-overlay">
+    <div class="popup-box">
+        <button class="close-btn" onclick="closePopup()"></button>
+        <h2 id="popup-title"></h2>
+        <div id="popup-content"></div>
+    </div>
+ </div>
+</body>
+</html>
