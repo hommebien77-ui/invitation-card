@@ -539,7 +539,7 @@ function rsvp() {
     document.getElementById("popup-title").textContent = "RSVP";
 
     document.getElementById("popup-content").innerHTML = `
-       <button class="rsvp-back" onclick="alert('back button clicked!'); backToInvitation()">
+       <button class="rsvp-back" onclick="backToInvitation()">
             ← Back
         </button>
 
@@ -554,7 +554,13 @@ function rsvp() {
 
     document.getElementById("popup").style.display = "flex";
 }
+function backToInvitation() {
+    const popup = document.getElementById("popup");
 
+    if (popup) {
+        popup.style.display = "none";
+    }
+}
 
         
 
