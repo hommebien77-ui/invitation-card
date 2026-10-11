@@ -593,10 +593,17 @@ async function donate() {
 
         const result = await response.json();
 
-        if (result.success) {
-            alert("M-PESA payment request sent! Check your phone.");
-        } else {
-            alert("Payment failed: " + result.message);
+console.log("HTTP status:", response.status);
+console.log("Server response:", result);
+
+if (response.ok && result.success && result.authorization_url) {
+    window.location.href = result.authorization_url;
+} else {
+    alert(
+        "Payment failed: " +
+        (result.message || result.error || JSON.stringify(result))
+    );
+}
         }
 
     } catch (error) {
